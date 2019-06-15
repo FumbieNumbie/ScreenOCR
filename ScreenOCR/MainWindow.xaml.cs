@@ -16,6 +16,7 @@ using System.Drawing;
 using Tesseract;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace ScreenOCR
 {
@@ -36,6 +37,7 @@ namespace ScreenOCR
 			InitializeComponent();
 			if (Clipboard.ContainsImage())
 			{
+				buttonRow.Height = 0;
 				BitmapSource bitmapSource = Clipboard.GetImage();
 
 				image.Source = bitmapSource;
@@ -43,7 +45,7 @@ namespace ScreenOCR
 				Debug.WriteLine("test1");
 				DoOCR();
 			}
-			
+
 		}
 		private void DoOCR()
 		{
@@ -57,51 +59,14 @@ namespace ScreenOCR
 					//using (var img = ClipboardImgToBitmap())
 					using (var img = Pix.LoadFromFile(imagePath))
 					{
-						using (logger.Begin("Process image"))
+						using (var page = engine.Process(img))
 						{
-							var i = 1;
-							using (var page = engine.Process(img))
-							{
-								var text = page.GetText();
-								logger.Log("Text: {0}", text);
-								logger.Log("Mean confidence: {0}", page.GetMeanConfidence());
-								outputBlock.Text = text;
-
-								using (var iter = page.GetIterator())
-								{
-									iter.Begin();
-									do
-									{
-										if (i % 2 == 0)
-										{
-											using (logger.Begin("Line {0}", i))
-											{
-												do
-												{
-													using (logger.Begin("Word Iteration"))
-													{
-														if (iter.IsAtBeginningOf(PageIteratorLevel.Block))
-														{
-															logger.Log("New block");
-														}
-														if (iter.IsAtBeginningOf(PageIteratorLevel.Para))
-														{
-															logger.Log("New paragraph");
-														}
-														if (iter.IsAtBeginningOf(PageIteratorLevel.TextLine))
-														{
-															logger.Log("New line");
-														}
-														logger.Log("word: " + iter.GetText(PageIteratorLevel.Word));
-													}
-												} while (iter.Next(PageIteratorLevel.TextLine, PageIteratorLevel.Word));
-											}
-										}
-										i++;
-									} while (iter.Next(PageIteratorLevel.Para, PageIteratorLevel.TextLine));
-								}
-							}
+							var text = page.GetText();
+							text = text.Replace(" ", "");
+							text = Regex.Replace(Regex.Replace(text, @"\n\n", "\n"), @"\n\n", "\n");
+							outputBlock.Text = text;
 						}
+
 					}
 				}
 			}
