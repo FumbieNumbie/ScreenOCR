@@ -17,7 +17,7 @@
 		</Style>-->
 		<SolidColorBrush x:Key="windowBGBrush" Color="Green"/>
 		<SolidColorBrush x:Key="windowBGBrushBusinessDateChanged" Color="Red"/>
-		<Style x:Key="myButton" TargetType="{x:Type Button}">
+<Style x:Key="myGreenButton" TargetType="{x:Type Button}">
 			<Setter Property="FontSize" Value="22"/>
 			<Setter Property="Template">
 				<Setter.Value>
@@ -38,7 +38,7 @@
 								<Border Name="MouseOver" 
 										  BorderBrush="Black"
 										  BorderThickness="1"
-										  Background="#bbbbbb"
+										  Background="#FF69FF7B"
 										  >
 									<ContentPresenter VerticalAlignment="Center"
 															HorizontalAlignment=
@@ -47,7 +47,7 @@
 								<Border Name="NormalBorder"
 										  BorderBrush="Black"
 										  BorderThickness="1"
-										  Background="#FF84EE78"
+										  Background="#FF14A96C"
 										  >
 									<ContentPresenter VerticalAlignment="Center"
 															HorizontalAlignment=
@@ -78,8 +78,69 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<Style x:Key="myBlueButton" TargetType="{x:Type Button}">
+		<Setter Property="FontSize" Value="22"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type Button}">
+					<ContentControl>
+						<Grid>
+							<Border Name="PressedBorder" 
+										  BorderBrush="Gray"
+										  BorderThickness="1"
+										  Background="#ffffff"
+										  
+										  >
+								<ContentPresenter VerticalAlignment="Center"
+															HorizontalAlignment=
+															"Center"
+															/>
+							</Border>
+							<Border Name="MouseOver" 
+										  BorderBrush="Black"
+										  BorderThickness="1"
+										  Background="#FF666666"
+										  >
+								<ContentPresenter VerticalAlignment="Center"
+															HorizontalAlignment=
+															"Center"/>
+							</Border>
+							<Border Name="NormalBorder"
+										  BorderBrush="Black"
+										  BorderThickness="1"
+										  Background="#FF267DDA"
+										  >
+								<ContentPresenter VerticalAlignment="Center"
+															HorizontalAlignment=
+															"Center"/>
+							</Border>
+						</Grid>
+					</ContentControl>
+
+					<ControlTemplate.Triggers>
+						<Trigger Property="Button.IsPressed" Value="True" >
+							<Setter TargetName="NormalBorder"
+										  Property="BorderBrush"
+										  Value="Transparent" />
+							<Setter TargetName="NormalBorder"
+										  Property="Background"
+										  Value="Transparent" />
+							<Setter TargetName="MouseOver"
+										  Property="Background"
+										  Value="Transparent" />
+						</Trigger>
+						<Trigger Property="Button.IsMouseOver" Value="true">
+							<Setter TargetName="NormalBorder"
+										  Property="Background"
+										  Value="Transparent" />
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+		</Style>
 	</Window.Resources>
-	<Grid MinWidth="200">
+	<Grid MinWidth="300">
 		<Grid.RowDefinitions>
 			<RowDefinition MinHeight="0"></RowDefinition>
 			<RowDefinition MinHeight="0"></RowDefinition>
@@ -105,14 +166,16 @@
 					<RowDefinition Height="3*"></RowDefinition>
 				</Grid.RowDefinitions>
 				<Grid Grid.Row="0" Name="buttonRow">
-					<Button
-						Name="refreshButton"
-						Click="RefreshButton_Click"
-                  Grid.RowSpan="1"
-                  Grid.ColumnSpan="1"
-                  Content="Reload"
-						Style="{StaticResource myButton}"
-               />
+					<Grid>
+						<Grid Grid.Column="0">
+							<Button
+								Name ="selectArea"
+								Click="SelectAreaButton_Click"
+								Content="Select area"
+								Style="{StaticResource myBlueButton}"
+							/>
+						</Grid>
+					</Grid>
 
 				</Grid>
 				<Grid Grid.Row="1">
@@ -124,9 +187,8 @@
 								Grid.ColumnSpan="1"
 								MaxHeight="200"
 								VerticalAlignment="Top">
-						
-					</TextBox>
 
+					</TextBox>
 				</Grid>
 			</Grid>
 

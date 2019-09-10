@@ -9,6 +9,10 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using Gma.UserActivityMonitor;
+using System.Windows.Forms;
+using Clipboard = System.Windows.Clipboard;
+using Point = System.Drawing.Point;
 
 namespace ScreenOCR
 {
@@ -19,25 +23,36 @@ namespace ScreenOCR
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+
+
 		public MainWindow()
 		{
 			InitializeComponent();
-			CheckClipboard();
+			HookManager.MouseDown += new MouseEventHandler(GetMouseDown);
+			HookManager.MouseUp += new MouseEventHandler(GetMouseUp);
+			Mask.onMouseUp += new Mask.MouseUpHandler(ProcessImage);
+			Mask.onMouseUp += () => Show();
 		}
-		private void CheckClipboard()
+		#region Getting a mouse coordinates during mouse down and up events
+		private static Point startPoint = new Point();
+		private static Point endPoint = new Point();
+		public void GetMouseDown(object sender, MouseEventArgs e)
 		{
-			if (Clipboard.ContainsImage())
-			{
-				BitmapSource source = Clipboard.GetImage();
-				image.Source = source;
-				Bitmap bitmap = BitmapFromSource(source);
-				DoOCR(bitmap);
-			}
-			else
-			{
-				message.Text = "Clipboard contains no image";
-			}
+			startPoint.X = e.X;
+			startPoint.Y = e.Y;
+			Debug.WriteLine("{0},{1}", startPoint.X, startPoint.Y);
 		}
+		public void GetMouseUp(object sender, MouseEventArgs e)
+		{
+			endPoint.X = e.X;
+			endPoint.Y = e.Y;
+
+			Debug.WriteLine("{0},{1}", endPoint.X, endPoint.Y);
+
+		}
+
+		#endregion
+
 
 		public static Bitmap BitmapFromSource(BitmapSource source)
 		{
@@ -81,10 +96,29 @@ namespace ScreenOCR
 				Debug.WriteLine(e.ToString());
 			}
 		}
-
-		private void RefreshButton_Click(object sender, RoutedEventArgs e)
+		
+		private void ProcessImage()
 		{
-			CheckClipboard();
+			int width = Math.Abs(endPoint.X - startPoint.X);
+			int height = Math.Abs(endPoint.Y - startPoint.Y);
+			if (height < 5 || width < 5)
+			{
+				message.Text = "The image is too small.";
+			}
+			else
+			{
+
+				Bitmap bitmap = AcquireImage.GetBitmap(startPoint.X, startPoint.Y, width, height);
+				image.Source = AcquireImage.ImageSourceFromBitmap(bitmap);
+				DoOCR(bitmap);
+			}
 		}
+		private void SelectAreaButton_Click(object sender, RoutedEventArgs e)
+		{
+			Hide();
+			Mask mask = new Mask();
+			mask.Show();
+		}
+		
 	}
 }
