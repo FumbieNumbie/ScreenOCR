@@ -1,4 +1,5 @@
 ﻿<Window x:Class="ScreenOCR.MainWindow"
+		  x:Name="mainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,7 +18,7 @@
 		</Style>-->
 		<SolidColorBrush x:Key="windowBGBrush" Color="Green"/>
 		<SolidColorBrush x:Key="windowBGBrushBusinessDateChanged" Color="Red"/>
-<Style x:Key="myGreenButton" TargetType="{x:Type Button}">
+		<Style x:Key="myGreenButton" TargetType="{x:Type Button}">
 			<Setter Property="FontSize" Value="22"/>
 			<Setter Property="Template">
 				<Setter.Value>
@@ -79,91 +80,85 @@
 			</Setter>
 		</Style>
 		<Style x:Key="myBlueButton" TargetType="{x:Type Button}">
-		<Setter Property="FontSize" Value="22"/>
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type Button}">
-					<ContentControl>
-						<Grid>
-							<Border Name="PressedBorder" 
+			<Setter Property="FontSize" Value="22"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Button}">
+						<ContentControl>
+							<Grid>
+								<Border Name="PressedBorder" 
 										  BorderBrush="Gray"
 										  BorderThickness="1"
 										  Background="#ffffff"
 										  
 										  >
-								<ContentPresenter VerticalAlignment="Center"
+									<ContentPresenter VerticalAlignment="Center"
 															HorizontalAlignment=
 															"Center"
 															/>
-							</Border>
-							<Border Name="MouseOver" 
+								</Border>
+								<Border Name="MouseOver" 
 										  BorderBrush="Black"
 										  BorderThickness="1"
 										  Background="#FF666666"
 										  >
-								<ContentPresenter VerticalAlignment="Center"
+									<ContentPresenter VerticalAlignment="Center"
 															HorizontalAlignment=
 															"Center"/>
-							</Border>
-							<Border Name="NormalBorder"
+								</Border>
+								<Border Name="NormalBorder"
 										  BorderBrush="Black"
 										  BorderThickness="1"
 										  Background="#FF267DDA"
 										  >
-								<ContentPresenter VerticalAlignment="Center"
+									<ContentPresenter VerticalAlignment="Center"
 															HorizontalAlignment=
 															"Center"/>
-							</Border>
-						</Grid>
-					</ContentControl>
+								</Border>
+							</Grid>
+						</ContentControl>
 
-					<ControlTemplate.Triggers>
-						<Trigger Property="Button.IsPressed" Value="True" >
-							<Setter TargetName="NormalBorder"
+						<ControlTemplate.Triggers>
+							<Trigger Property="Button.IsPressed" Value="True" >
+								<Setter TargetName="NormalBorder"
 										  Property="BorderBrush"
 										  Value="Transparent" />
-							<Setter TargetName="NormalBorder"
+								<Setter TargetName="NormalBorder"
 										  Property="Background"
 										  Value="Transparent" />
-							<Setter TargetName="MouseOver"
+								<Setter TargetName="MouseOver"
 										  Property="Background"
 										  Value="Transparent" />
-						</Trigger>
-						<Trigger Property="Button.IsMouseOver" Value="true">
-							<Setter TargetName="NormalBorder"
+							</Trigger>
+							<Trigger Property="Button.IsMouseOver" Value="true">
+								<Setter TargetName="NormalBorder"
 										  Property="Background"
 										  Value="Transparent" />
-						</Trigger>
-					</ControlTemplate.Triggers>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
 		</Style>
 	</Window.Resources>
+
 	<Grid MinWidth="300">
 		<Grid.RowDefinitions>
 			<RowDefinition MinHeight="0"></RowDefinition>
-			<RowDefinition MinHeight="0"></RowDefinition>
-			<RowDefinition MinHeight="20"></RowDefinition>
+			<RowDefinition MinHeight="30"></RowDefinition>
 		</Grid.RowDefinitions>
+
 		<Grid Grid.Row="0">
-			<TextBlock Name="message"
-						  FontSize="18"
-						  VerticalAlignment="Center"
-						  HorizontalAlignment="Center"
-						  Height="auto"/>
-		</Grid>
-		<Grid Grid.Row="1">
 			<Image Name="image"
 					 MaxHeight="400"
 					 MaxWidth="400"
 					 />
 		</Grid>
-		<Grid Grid.Row="2">
+		<Grid Grid.Row="1">
 			<Grid >
 				<Grid.RowDefinitions>
 					<RowDefinition Height="1*"></RowDefinition>
-					<RowDefinition Height="3*"></RowDefinition>
+					<RowDefinition Height="6*"></RowDefinition>
 				</Grid.RowDefinitions>
 				<Grid Grid.Row="0" Name="buttonRow">
 					<Grid>
@@ -179,16 +174,37 @@
 
 				</Grid>
 				<Grid Grid.Row="1">
-					<TextBox Name="outputBlock"
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="6*"/>
+						<ColumnDefinition Width="30"/>
+					</Grid.ColumnDefinitions>
+					<TextBox  Name="outputBlock"
 								
 								Grid.Column="0"
 								FontSize="18"
 								HorizontalAlignment="Stretch"
 								Grid.ColumnSpan="1"
+								
 								MaxHeight="200"
-								VerticalAlignment="Top">
+								VerticalAlignment="Stretch">
 
 					</TextBox>
+					<StackPanel Grid.Column="1">
+
+						<Slider Height="100"
+								  Name="slider"
+								  Minimum="-100"
+								  Maximum="100"
+								  Value="0"
+								  TickPlacement="Both"
+								  IsSnapToTickEnabled="True"
+								  TickFrequency="10"
+							  Orientation="Vertical"
+							  VerticalAlignment="Stretch"
+							  HorizontalAlignment="Center"
+								  />
+						<Label HorizontalAlignment="Center" Height="30" Name="thresholdLabel"/>
+					</StackPanel>
 				</Grid>
 			</Grid>
 

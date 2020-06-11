@@ -23,6 +23,7 @@ namespace ScreenOCR
 		bool mouseDown = false; // Set to 'true' when mouse is held down.
 		Point mouseDownPos; // The point where the mouse button was clicked down.
 
+
 		private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			// Capture and track the mouse.
@@ -34,7 +35,6 @@ namespace ScreenOCR
 			Canvas.SetTop(selectionBox, mouseDownPos.Y);
 			selectionBox.Width = 0;
 			selectionBox.Height = 0;
-
 			// Make the drag selection box visible.
 			selectionBox.Visibility = Visibility.Visible;
 		}
@@ -44,7 +44,6 @@ namespace ScreenOCR
 			// Release the mouse capture and stop tracking it.
 			mouseDown = false;
 			theGrid.ReleaseMouseCapture();
-
 			// Hide the drag selection box.
 			selectionBox.Visibility = Visibility.Collapsed;
 			Point mouseUpPos = e.GetPosition(theGrid);
@@ -54,6 +53,7 @@ namespace ScreenOCR
 			//int resultY = (int)((mouseUpPos.Y > mouseDownPos.Y) ? mouseDownPos.Y : mouseUpPos.Y);
 			//MainWindow.bitmap = AcquireImage.GetBitmap(resultX, resultY, dX, dY);
 			//Close the mask window
+			
 			onMouseUp?.Invoke();
 			Close();
 		}
@@ -70,24 +70,24 @@ namespace ScreenOCR
 
 				if (mouseDownPos.X < mousePos.X)
 				{
-					Canvas.SetLeft(selectionBox, Math.Max(0,mouseDownPos.X-1));
-					selectionBox.Width = mousePos.X - mouseDownPos.X + 2;
+					Canvas.SetLeft(selectionBox, Math.Max(0,mouseDownPos.X));
+					selectionBox.Width = mousePos.X - mouseDownPos.X ;
 				}
 				else
 				{
-					Canvas.SetLeft(selectionBox, Math.Max(0,mousePos.X-1));
-					selectionBox.Width = mouseDownPos.X - mousePos.X + 2;
+					Canvas.SetLeft(selectionBox, Math.Max(0,mousePos.X));
+					selectionBox.Width = mouseDownPos.X - mousePos.X ;
 				}
 
 				if (mouseDownPos.Y < mousePos.Y)
 				{
-					Canvas.SetTop(selectionBox, Math.Max(0,mouseDownPos.Y-1));
-					selectionBox.Height = mousePos.Y - mouseDownPos.Y + 2;
+					Canvas.SetTop(selectionBox, Math.Max(0,mouseDownPos.Y));
+					selectionBox.Height = mousePos.Y - mouseDownPos.Y ;
 				}
 				else
 				{
 					Canvas.SetTop(selectionBox, Math.Max(0, mousePos.Y));
-					selectionBox.Height = mouseDownPos.Y - mousePos.Y + 2;
+					selectionBox.Height = mouseDownPos.Y - mousePos.Y ;
 				}
 			}
 		}

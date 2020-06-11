@@ -22,10 +22,11 @@
 			Background="Transparent">
 		<Canvas>
 			<Rectangle
-                x:Name="selectionBox"
-                Visibility="Collapsed"
-                Stroke="#FFF2FD6E"
-                StrokeThickness="1"
+               x:Name="selectionBox"
+               Visibility="Collapsed"
+               Stroke="#FF000000"
+					StrokeDashArray="5 5"
+               StrokeThickness="2" StrokeLineJoin="Bevel"
                 />
 		</Canvas>
 	</Grid>

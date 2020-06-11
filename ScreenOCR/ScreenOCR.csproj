@@ -37,10 +37,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icon1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IronOcr, Version=4.4.0.21181, Culture=neutral, PublicKeyToken=5f366048dc436899, processorArchitecture=MSIL">
-      <HintPath>..\packages\IronOcr.4.4.0\lib\net40\IronOcr.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -66,11 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AcquireImage.cs" />
-    <Compile Include="HookManager.Callbacks.cs" />
-    <Compile Include="HookManager.cs" />
-    <Compile Include="HookManager.Structures.cs" />
-    <Compile Include="HookManager.Windows.cs" />
+    <Compile Include="ImageProcessor.cs" />
     <Compile Include="MouseEventExtArgs.cs" />
     <Compile Include="Mask.xaml.cs">
       <DependentUpon>Mask.xaml</DependentUpon>
@@ -93,6 +89,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MouseHook.cs" />
+    <Compile Include="MouseHook.WinFunctions.cs" />
+    <Compile Include="MouseHookEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -118,6 +117,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resources\Icon1.ico" />
     <Content Include="tessdata\eng.cube.bigrams">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
